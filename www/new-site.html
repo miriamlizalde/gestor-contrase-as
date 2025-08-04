@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create New Site</title>
+  <script type="module" src="js/new-site.js"></script>
+</head>
+<body>
+  <main>
+    <h1>New Site</h1>
+
+    <form id="site-form">
+      <label for="name">Site name:</label>
+      <input type="text" id="name" required /><br />
+
+      <label for="url">URL:</label>
+      <input type="url" id="url" required /><br />
+
+      <label for="user">Username:</label>
+      <input type="text" id="user" required /><br />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" required /><br />
+
+      <label for="description">Description:</label>
+      <input type="text" id="description" /><br />
+
+      <label for="category">Category:</label>
+      <select id="category" required>
+        <option value="">-- Choose category --</option>
+      </select><br />
+
+      <button type="submit">Create Site</button>
+    </form>
+
+    <p id="message"></p>
+  </main>
+</body>
+</html>
