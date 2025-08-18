@@ -9,7 +9,6 @@ export class Api {
   
       return await response.json();
     }
-
     static async createCategory(name) {
       const response = await fetch(`${this.URL}/categories`, {
         method: 'POST',
