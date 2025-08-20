@@ -6,7 +6,7 @@ export class Api {
       const response = await fetch(`${this.URL}/categories`);
       
       if (!response.ok) {
-        throw new Error('No se han podido recuperar las categorías');
+        throw new Error('The categories could not be recovered');
       }
   
       return await response.json();
@@ -22,7 +22,7 @@ export class Api {
       });
   
       if (!response.ok) {
-        throw new Error('No se ha podido crear la categoría');
+        throw new Error('The category could not be created');
       }
   
       return await response.json();
@@ -35,7 +35,7 @@ export class Api {
       
         if (!response.ok) {
           const errorText = await response.text();
-          throw new Error(errorText || 'Error al eliminar la categoría.');
+          throw new Error(errorText || 'Error deleting category.');
         }
       
         return true;
@@ -46,17 +46,17 @@ export class Api {
         const response = await fetch(`${this.URL}/sites`);
       
         if (!response.ok) {
-          throw new Error('Error al recuperar los sitios.');
+          throw new Error('Error retrieving sites.');
         }
       
         return await response.json();
       }
    
       static async getSitesByCategory(categoryId) {
-        const response = await fetch(`${this.URL}/categories/${categoryId}/sites`);
+        const response = await fetch(`${this.URL}/sites?categoryId=${categoryId}`);
       
         if (!response.ok) {
-          throw new Error('Error al recuperar los sitios de la categoría.');
+          throw new Error('Error retrieving sites for the category.');
         }
       
         return await response.json();
@@ -73,20 +73,20 @@ export class Api {
       
         if (!response.ok) {
           const errorText = await response.text().catch(() => '');
-          throw new Error(errorText || 'Error al crear el sitio.');
+          throw new Error(errorText || 'Error creating site.');
         }
       
         return await response.json();
       }
 
-    static async deleteSite(categoryId, siteId) {
-        const response = await fetch(`${this.URL}/categories/${categoryId}/sites/${siteId}`, {
+    static async deleteSite(siteId) {
+        const response = await fetch(`${this.URL}/sites/${siteId}`, {
           method: 'DELETE',
         });
       
         if (!response.ok) {
           const errorText = await response.text().catch(() => '');
-          throw new Error(errorText || 'Error al eliminar el sitio.');
+          throw new Error(errorText || 'Error deleting site.');
         }
       
         return true;

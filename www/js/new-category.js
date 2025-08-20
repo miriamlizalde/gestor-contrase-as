@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderCategories = (categories) => {
     list.innerHTML = '';
+    if (!categories.length) {
+      const li = document.createElement('li');
+      li.className = 'list-group-item text-muted';
+      li.textContent = 'No hay categorías';
+      list.appendChild(li);
+      return;
+    }
+
     categories.forEach(cat => {
       const li = document.createElement('li');
       li.textContent = cat.name;
@@ -32,8 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const cats = await Api.getCategories();
       renderCategories(cats);
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.log('Error al cargar categorías',error);
       paintMessage('No se pudieron cargar las categorías', 'danger');
     }
   };
@@ -42,33 +50,32 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       await Api.deleteCategory(id);
       paintMessage('Categoría eliminada', 'success');
-      loadCategories();
+      await loadCategories();
     } catch (error) {
       console.error('Error al eliminar categoría:', error);
       paintMessage('Error al eliminar la categoría', 'danger');
     }
   };
-
+  
+  // Crear categoría
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const name = input.value.trim();
 
     if (!name) {
-      message.textContent = 'Debes introducir un nombre.';
-      message.style.color = 'red';
+      paintMessage('Debes introducir un nombre','danger');
       return;
     }
 
     try {
       await Api.createCategory(name);
-      message.textContent = 'Categoría añadida.';
-      message.style.color = 'green';
+      paintMessage('Categoría añadida', 'success');
       form.reset();
+      await loadCategories();
     } catch (error) {
-      console.error('Error al añadir categoría:', error);
-      message.textContent = 'Error al guardar la categoría';
-      message.style.color = 'red';
+      console.log('Error al añadir categoría:', error);
+      paintMessage('Error al guardar la categoría', 'danger');
     }
   });
 
